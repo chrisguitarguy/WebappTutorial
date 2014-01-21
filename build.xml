@@ -1,0 +1,45 @@
+<project name="WebappTut" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <description>A tutorial for myself on developing java webapps</description>
+
+    <property file="build.properties" />
+
+    <!-- directories and such -->
+    <property name="app.dir" location="app" />
+    <property name="src.dir" location="src" />
+    <property name="target.dir" location="${app.dir}/WEB-INF/classes" />
+    <property name="lib.dir" location="lib" />
+
+    <!-- All about our webapp -->
+    <property name="app.context" value="webapptut" />
+    <property name="tomcat.user" value="cli" />
+    <property name="tomcat.password" value="pass" />
+    <property name="tomcat.url" value="http://localhost:8080/manager" />
+
+    <!-- probably a better way to do this... -->
+    <path id="tomcat.path">
+        <fileset dir="lib">
+            <include name="**/tomcat-*.jar" />
+            <exclude name="**/tomcat-*-sources.jar" />
+        </fileset>
+    </path>
+
+    <!-- wrapped up in a task so it doesn't fuck with other taks when we don't have deps yet -->
+    <target name="prepare-tomcat" description="Define the tomcat ant tasks">
+        <taskdef resource="org/apache/catalina/ant/catalina.tasks" classpathref="tomcat.path" />
+    </target>
+
+    <target name="deploy" depends="prepare-tomcat">
+        <deploy
+            url="${tomcat.url}"
+            username="${tomcat.user}"
+            password="${tomcat.password}"
+            path="${app.context}"
+            war="file:${app.dir}" />
+    </target>
+
+    <target name="deps" description="Install the dependencies in `ivy.xml`">
+        <ivy:retrieve />
+    </target>
+
+</project>

@@ -1,0 +1,13 @@
+<ivy-module version="2.0">
+    <info organisation="me.christopherdavis" module="webapptut" />
+    <dependencies>
+        <!-- we'll need tomcats servlet API to build our project -->
+        <dependency org="org.apache.tomcat" name="tomcat-servlet-api" rev="7.0.50" />
+
+        <!-- Add some ant tasks related to tomcat -->
+        <dependency org="org.apache.tomcat" name="tomcat-catalina-ant" rev="7.0.50" />
+
+        <!-- the ant tasks above depend on this, but it's not included in the deps -->
+        <dependency org="org.apache.tomcat" name="tomcat-jasper" rev="7.0.50" />
+    </dependencies>
+</ivy-module>
