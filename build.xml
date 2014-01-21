@@ -14,7 +14,17 @@
     <property name="app.context" value="/webapptut" />
     <property name="tomcat.user" value="cli" />
     <property name="tomcat.password" value="pass" />
-    <property name="tomcat.url" value="http://localhost:8080/manager" />
+    <property name="tomcat.url" value="http://localhost:8080/manager/text" />
+    <property name="catalina.home" value="/usr/local/brew/Cellar/tomcat/7.0.50/libexec" />
+    <condition property="app.exists">
+        <available file="${catalina.home}/webapps${app.context}" />
+    </condition>
+    <condition property="app.notexists">
+        <not>
+            <istrue value="${app.exists}" />
+        </not>
+    </condition>
+
 
     <!-- probably a better way to do this... -->
     <path id="tomcat.path">
@@ -24,18 +34,26 @@
         </fileset>
     </path>
 
+    <!-- easiest thing to do is symlink our `app` directory into CATALINA_HOME/webapps -->
+    <target name="create-symlink" description="Symlink or ${app.dir} to ${catalina.home}/webapps${app.context}" if="app.notexists">
+        <symlink link="${catalina.home}/webapps${app.context}" resource="${app.dir}" overwrite="false" />
+    </target>
+
+    <target name="remove-symlink" description="Delete the symlink from ${app.dir} to ${catalina.home}/webapps${app.context}" if="app.exists">
+        <symlink link="${catalina.home}/webapps${app.context}" resource="${app.dir}" action="delete" />
+    </target>
+
     <!-- wrapped up in a task so it doesn't fuck with other taks when we don't have deps yet -->
-    <target name="prepare-tomcat" description="Define the tomcat ant tasks">
+    <target name="prepare-tomcat" depends="create-symlink" description="Define the tomcat ant tasks">
         <taskdef resource="org/apache/catalina/ant/catalina.tasks" classpathref="tomcat.path" />
     </target>
 
-    <target name="deploy" depends="prepare-tomcat">
-        <deploy
+    <target name="reload" depends="prepare-tomcat">
+        <reload
             url="${tomcat.url}"
             username="${tomcat.user}"
             password="${tomcat.password}"
-            path="${app.context}"
-            war="file:${app.dir}" />
+            path="${app.context}" />
     </target>
 
     <target name="deps" description="Install the dependencies in `ivy.xml`">
