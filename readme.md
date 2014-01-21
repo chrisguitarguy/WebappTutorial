@@ -10,3 +10,9 @@ developing web application in Java might work.
 should already be installed in your `ANTLIB` directory.
 1. A running instance of [Tomcat](http://tomcat.apache.org/) to which the
 webapp will be deployed.
+
+### Why?
+
+Because I'm not an IDE guy, I wanted to figure out how to use a set of
+appropriate tools to create java webapps using the CLI and my favorite text
+editor.
