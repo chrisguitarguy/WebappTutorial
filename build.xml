@@ -11,7 +11,7 @@
     <property name="lib.dir" location="lib" />
 
     <!-- All about our webapp -->
-    <property name="app.context" value="webapptut" />
+    <property name="app.context" value="/webapptut" />
     <property name="tomcat.user" value="cli" />
     <property name="tomcat.password" value="pass" />
     <property name="tomcat.url" value="http://localhost:8080/manager" />
