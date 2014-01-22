@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// urlPatterns are tricky!
+// http://stackoverflow.com/a/26744/1031898
+// http://javapapers.com/servlet/what-is-servlet-mapping/
 @WebServlet(name="hellohtml", urlPatterns={"/hellohtml", "/hellohtml/*"})
 public class HelloHtml extends HttpServlet
 {
