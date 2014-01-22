@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
+// http://stackoverflow.com/a/6099438/1031898
 // Scriptlets and the expression language in ${ } (see the use of <c:out />
 // below) don't share the same variable scope. So if you can use <%= with
 // this `name` variable, but trying to use it in c:out doesn't work.
