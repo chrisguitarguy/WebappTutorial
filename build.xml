@@ -73,8 +73,40 @@
             includeantruntime="false" />
     </target>
 
-    <target name="deps" description="Install the dependencies in `ivy.xml`">
-        <ivy:retrieve />
+    <target name="deps.compile" description="Install the `compile` dependencies in `ivy.xml`">
+        <ivy:retrieve conf="compile" />
     </target>
+
+    <target name="deps.app" description="Install the `app` dependencies in `ivy.xml`">
+        <ivy:retrieve conf="app" />
+    </target>
+
+    <target name="deps.cache" description="Clean the Ivy cache">
+        <ivy:cleancache />
+    </target>
+
+    <target name="deps.cleanapp" description="Remove the `compile` dependencies">
+        <delete includeemptydirs="true">
+            <fileset dir="${lib.dir}">
+                <exclude name=".gitignore" />
+                <exclude name="readme.md" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="deps.cleancompile" description="Remove the `compile` dependencies">
+        <delete includeemptydirs="true">
+            <fileset dir="${app.dir}/WEB-INF/lib">
+                <exclude name=".gitignore" />
+                <exclude name="readme.md" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="deps.cleanall"
+        description="Clean all the deps"
+        depends="deps.cleanapp,deps.cleancompile,deps.cache" />
+
+    <target name="deps" description="Install all dependencies in `ivy.xml`" depends="deps.compile,deps.app" />
 
 </project>

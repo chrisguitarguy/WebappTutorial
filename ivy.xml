@@ -1,13 +1,28 @@
 <ivy-module version="2.0">
+
     <info organisation="me.christopherdavis" module="webapptut" />
+    <!-- 
+         we need to have to separate configurations so we can separate
+         things that should go in our app/WEB-INF/lib directory vs a library
+         for the normal `lib` directory
+    -->
+    <configurations defaultconfmapping="*->default">
+        <conf name="compile" description="Not to be included in deployed webapp" />
+        <conf name="app" description="Deps to be included in the deployed webapp" />
+    </configurations>
+
     <dependencies>
         <!-- we'll need tomcats servlet API to build our project -->
-        <dependency org="org.apache.tomcat" name="tomcat-servlet-api" rev="7.0.50" />
+        <dependency org="org.apache.tomcat" name="tomcat-servlet-api" rev="7.0.50" conf="compile" />
 
         <!-- Add some ant tasks related to tomcat -->
-        <dependency org="org.apache.tomcat" name="tomcat-catalina-ant" rev="7.0.50" />
+        <dependency org="org.apache.tomcat" name="tomcat-catalina-ant" rev="7.0.50" conf="compile" />
 
         <!-- the ant tasks above depend on this, but it's not included in the deps -->
-        <dependency org="org.apache.tomcat" name="tomcat-jasper" rev="7.0.50" />
+        <dependency org="org.apache.tomcat" name="tomcat-jasper" rev="7.0.50" conf="compile" />
+
+        <!-- Tomcat does NOT include jstl or any tablies -->
+        <dependency org="org.apache.taglibs" name="taglibs-standard" rev="1.2.1" conf="app" />
     </dependencies>
+
 </ivy-module>
