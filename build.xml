@@ -48,12 +48,29 @@
         <taskdef resource="org/apache/catalina/ant/catalina.tasks" classpathref="tomcat.path" />
     </target>
 
-    <target name="reload" depends="prepare-tomcat">
+    <target name="reload" depends="prepare-tomcat,compile">
         <reload
             url="${tomcat.url}"
             username="${tomcat.user}"
             password="${tomcat.password}"
             path="${app.context}" />
+    </target>
+
+    <target name="clean-build" description="Clean out or WEB-INF/classes">
+        <delete includeemptydirs="true">
+            <fileset dir="${target.dir}">
+                <exclude name="**/.gitignore" />
+                <exclude name="**/readme.md" />
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="compile" depends="clean-build" description="Compile all the things!">
+        <javac
+            srcdir="${src.dir}"
+            destdir="${target.dir}"
+            classpathref="tomcat.path"
+            includeantruntime="false" />
     </target>
 
     <target name="deps" description="Install the dependencies in `ivy.xml`">
