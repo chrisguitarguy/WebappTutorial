@@ -85,7 +85,7 @@
         <ivy:cleancache />
     </target>
 
-    <target name="deps.cleanapp" description="Remove the `compile` dependencies">
+    <target name="deps.cleancompile" description="Remove the `compile` dependencies">
         <delete includeemptydirs="true">
             <fileset dir="${lib.dir}">
                 <exclude name=".gitignore" />
@@ -94,7 +94,7 @@
         </delete>
     </target>
 
-    <target name="deps.cleancompile" description="Remove the `compile` dependencies">
+    <target name="deps.cleanapp" description="Remove the `app` dependencies">
         <delete includeemptydirs="true">
             <fileset dir="${app.dir}/WEB-INF/lib">
                 <exclude name=".gitignore" />
