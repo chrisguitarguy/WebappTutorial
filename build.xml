@@ -1,4 +1,7 @@
-<project name="WebappTut" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="WebappTut"
+    basedir="."
+    xmlns:ivy="antlib:org.apache.ivy.ant"
+    xmlns:ant="antlib:org.apache.catalina.ant">
 
     <description>A tutorial for myself on developing java webapps</description>
 
@@ -44,12 +47,14 @@
     </target>
 
     <!-- wrapped up in a task so it doesn't fuck with other taks when we don't have deps yet -->
-    <target name="prepare-tomcat" depends="create-symlink" description="Define the tomcat ant tasks">
-        <taskdef resource="org/apache/catalina/ant/catalina.tasks" classpathref="tomcat.path" />
+    <target name="prepare-tomcat" description="Define the tomcat ant tasks">
+        <taskdef uri="antlib:org.apache.catalina.ant"
+            resource="org/apache/catalina/ant/antlib.xml"
+            classpathref="tomcat.path" />
     </target>
 
-    <target name="reload" depends="prepare-tomcat,compile">
-        <reload
+    <target name="reload" depends="create-symlink,prepare-tomcat,compile">
+        <ant:reload
             url="${tomcat.url}"
             username="${tomcat.user}"
             password="${tomcat.password}"
